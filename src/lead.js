@@ -1,17 +1,17 @@
 /**
- * POST /api/lead — Cloudflare Pages Function.
+ * POST /api/lead — called by src/worker.js.
  *
  * Validates a contact-form submission, checks the Turnstile token, and emails
  * the lead on via Resend. No server, no database: the lead lands in an inbox.
  *
- * Environment variables (Pages → Settings → Variables; mark the keys as secret):
+ * Environment variables (Worker → Settings → Variables and Secrets, as Secrets):
  *   RESEND_API_KEY        required — https://resend.com/api-keys
  *   LEAD_TO               required — where leads go, comma-separated for several
  *   LEAD_FROM             required — e.g. "Bou site <website@yourdomain.com>",
  *                                    on a domain verified in Resend
  *   TURNSTILE_SECRET_KEY  optional — set it once the form renders a widget
  *
- * For local runs (`npx wrangler pages dev .`) put the same keys in .dev.vars.
+ * For local runs (`npm run dev`) put the same keys in .dev.vars.
  */
 
 const MAX = { name: 120, email: 200, brand: 160, need: 80, message: 4000 };
@@ -48,7 +48,7 @@ async function verifyTurnstile(token, secret, ip) {
   return data.success === true;
 }
 
-export async function onRequestPost({ request, env }) {
+export async function handleLead(request, env) {
   let payload;
   try {
     payload = await readBody(request);
@@ -119,5 +119,3 @@ export async function onRequestPost({ request, env }) {
 
   return json({ ok: true });
 }
-
-/* Only POST is exported, so Pages answers every other method with 405 itself. */

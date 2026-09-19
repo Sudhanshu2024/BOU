@@ -1,0 +1,16 @@
+{
+  // Cloudflare Worker + static assets. `npm run build` fills dist/, then
+  // `npx wrangler deploy` uploads dist/ and src/worker.js together.
+  "name": "bou",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-05-01",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS"
+  },
+  "observability": {
+    "enabled": true
+  }
+  // Secrets (RESEND_API_KEY, LEAD_TO, LEAD_FROM, TURNSTILE_SECRET_KEY) are set
+  // in the dashboard or with `wrangler secret put` — never in this file.
+}

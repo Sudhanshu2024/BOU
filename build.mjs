@@ -1,21 +1,30 @@
 #!/usr/bin/env node
-/* Builds index.html from content.json.
+/* Builds the publishable site into dist/.
    Usage: node build.mjs [--strict]
-   --strict fails the build if any [PLACEHOLDER] is still in the content. */
+   --strict fails the build if any [PLACEHOLDER] is still in the content.
 
-import { readFile, writeFile } from 'node:fs/promises';
+   Only dist/ is served. Source files (content.json, src/, the docs) stay out of
+   the deployment, which is why the Pages output directory is `dist`. */
+
+import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { renderPage } from './src/page.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
+const dist = join(root, 'dist');
 const strict = process.argv.includes('--strict');
 
 const content = JSON.parse(await readFile(join(root, 'content.json'), 'utf8'));
-const html = renderPage(content);
-await writeFile(join(root, 'index.html'), html, 'utf8');
 
-console.log(`index.html — ${html.split('\n').length} lines from content.json`);
+await rm(dist, { recursive: true, force: true });
+await mkdir(dist, { recursive: true });
+
+const html = renderPage(content);
+await writeFile(join(dist, 'index.html'), html, 'utf8');
+await cp(join(root, 'assets'), join(dist, 'assets'), { recursive: true });
+
+console.log(`dist/index.html — ${html.split('\n').length} lines, plus assets/`);
 
 /* Walk the content and report anything still in [SQUARE BRACKETS]. */
 const placeholders = [];

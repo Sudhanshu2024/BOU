@@ -4,18 +4,21 @@ Static landing page built from the Bou canvas in Claude Design
 (https://claude.ai/artifact/SEKKDneKZKHbLMg4VpX4yt), following the `Main.dc.html`
 (desktop 1440) and `Mobile.dc.html` (390) artboards and the Bou design system.
 
-No server, no database. The page is static files on Cloudflare Pages; the contact
-form posts to one Pages Function that emails the lead on.
+No server, no database. The page is static files served by a Cloudflare Worker;
+the contact form posts to `/api/lead` on that same Worker, which emails the lead
+on to you.
 
 ```
 content.json          every word and image on the page — the only file to edit for copy
 build.mjs             renders index.html from content.json
 src/page.mjs          the markup template
-index.html            GENERATED — do not edit by hand, it is overwritten on each build
 assets/css/styles.css design tokens + all layout
 assets/js/main.js     mobile menu, contact form submit
 assets/img/*.jpg      photography from the canvas
-functions/api/lead.js Cloudflare Pages Function: validates, anti-spam, emails via Resend
+src/worker.js         the Worker: serves dist/, handles POST /api/lead
+src/lead.js           validates, anti-spam, emails the lead via Resend
+wrangler.jsonc        Worker config — name, entry point, assets directory
+dist/                 GENERATED — what Cloudflare publishes; git-ignored, never edit
 ```
 
 ## Editing content
@@ -23,10 +26,15 @@ functions/api/lead.js Cloudflare Pages Function: validates, anti-spam, emails vi
 Change `content.json`, then:
 
 ```bash
-npm run build          # regenerates index.html and lists remaining placeholders
-npm run dev            # build, then serve on http://localhost:8000
+npm run build          # regenerates dist/ and lists remaining placeholders
+npm run dev            # build, then wrangler: dist/ AND /api/lead on :8787
+npm run preview        # build, then serve dist/ alone on :8000 (no form)
+npm run deploy         # build, then deploy by hand (CI does this for you)
 npm run build:strict   # same build, but fails if any [PLACEHOLDER] is left
 ```
+
+Only `dist/` is published, so `content.json`, `src/` and these docs never end up
+on the public site.
 
 Conventions inside `content.json`:
 
@@ -45,33 +53,31 @@ CMS at `/admin`. Both are git-based: they edit this same `content.json` through 
 browser form and commit to GitHub, which triggers the Pages build. No extra
 infrastructure, and nothing about the page changes.
 
-## Deploying on Cloudflare Pages
+## Deploying on Cloudflare Workers
 
 **[DEPLOY.md](DEPLOY.md) is the click-by-click version** — accounts, keys, DNS,
 variables, testing. The summary:
 
 1. Push this folder to a GitHub repo.
-2. Cloudflare dashboard → **Workers & Pages** → **Create** → **Pages** → connect the repo.
-3. Build settings:
-   - Build command: `npm run build`
-   - Build output directory: `/`
-   - Node version: 18 or newer (`NODE_VERSION` variable if needed)
-4. **Custom domains** → add your domain. DNS is already on Cloudflare, so the
-   record is created for you.
+2. Cloudflare dashboard → **Compute (Workers & Pages)** → the `bou` Worker → **Settings** → **Builds**.
+3. Build command `npm run build`, deploy command `npx wrangler deploy`,
+   **root directory `/`** — not `dist`; the output directory lives in
+   `wrangler.jsonc`.
+4. **Domains** → add your domain. DNS is already on Cloudflare, so the record is
+   created for you.
 
-`functions/` is picked up automatically — `functions/api/lead.js` is served at
-`/api/lead`, which is what the form posts to.
+There is no deploy command to run yourself: `git push` triggers the build, and
+Cloudflare runs the deploy command for you.
 
 ## The lead form
 
-Flow: browser → `POST /api/lead` (Pages Function) → Resend → your inbox.
+Flow: browser → `POST /api/lead` (the Worker) → Resend → your inbox.
 The reply-to is set to the lead's address, so replying in your mail client
 answers them directly.
 
 ### Environment variables
 
-Pages → your project → **Settings** → **Variables and secrets**. Add these for
-both Production and Preview, marked as secrets:
+Worker `bou` → **Settings** → **Variables and Secrets**. Add each as a **Secret**:
 
 | Name | Required | Value |
 |---|---|---|
@@ -81,9 +87,8 @@ both Production and Preview, marked as secrets:
 | `TURNSTILE_SECRET_KEY` | recommended | from the Turnstile widget you create |
 
 Resend's free tier covers 3,000 emails a month, far past what a landing page
-generates. Sending mail straight from a Worker is not an option any more —
-MailChannels ended its free Workers route in 2024 — which is why this goes
-through an email API.
+generates. A Worker cannot send mail by itself any more — MailChannels ended its
+free Workers route in 2024 — which is why this goes through an email API.
 
 ### Spam
 
@@ -99,20 +104,19 @@ Two layers, both free:
 ### Running it locally
 
 ```bash
-npm install -g wrangler        # or npx
 echo 'RESEND_API_KEY="re_..."' > .dev.vars
 echo 'LEAD_TO="you@yourdomain.com"' >> .dev.vars
 echo 'LEAD_FROM="Bou site <website@yourdomain.com>"' >> .dev.vars
-npm run build && npx wrangler pages dev .
+npm run dev
 ```
 
-`.dev.vars` is git-ignored. `python3 -m http.server` serves the page but not the
-Function, so use `wrangler pages dev` when testing the form.
+`.dev.vars` is git-ignored. `npm run preview` serves the page but not the
+endpoint, so use `npm run dev` when testing the form.
 
 ### If you later want leads stored
 
-Add a Cloudflare D1 database, bind it as `DB` in the Pages project, and insert a
-row in `functions/api/lead.js` before the Resend call. Still free at this volume,
+Add a Cloudflare D1 database, bind it as `DB` in `wrangler.jsonc`, and insert a
+row in `src/lead.js` before the Resend call. Still free at this volume,
 and worth doing only when you actually want to query or export leads.
 
 ## Before launch — replace every placeholder
@@ -125,7 +129,7 @@ and worth doing only when you actually want to query or export leads.
 - **Footer** — Instagram and LinkedIn URLs
 - **Team photos** — `assets/img/team-*.jpg` are stand-ins from the canvas; swap in
   real portraits of Sudhanshu, Surbhie and Trisha
-- **Form** — set the four environment variables above, or the endpoint returns
+- **Form** — set the four secrets above, or the endpoint returns
   "The form is not configured yet."
 
 ## Design system

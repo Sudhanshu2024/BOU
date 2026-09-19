@@ -3,6 +3,9 @@
 Everything below is free tier. You need three accounts: GitHub, Cloudflare (you
 have one, your DNS is there) and Resend. No Vercel, no server, no database.
 
+The site is a Cloudflare **Worker with static assets**: `dist/` is served as
+files, and `src/worker.js` handles the one dynamic route, `POST /api/lead`.
+
 Order matters: Resend's domain check involves DNS propagation, so start it early.
 
 ---
@@ -31,26 +34,40 @@ git push -u origin main
 
 ---
 
-## 2 · Create the Cloudflare Pages project
+## 2 · Build settings for the Worker
 
-1. dash.cloudflare.com → **Compute (Workers & Pages)** in the sidebar
-2. **Create** → **Pages** tab → **Connect to Git**
-3. Authorise GitHub, pick the repo, **Begin setup**
-4. Build settings:
-   - Framework preset: **None**
-   - Build command: `npm run build`
-   - Build output directory: `/`
-5. **Save and Deploy**
+Your project (`bou`) is a **Worker** connected to Git, so its build settings are
+four fields. Cloudflare dashboard → **Compute (Workers & Pages)** → `bou` →
+**Settings** → **Builds**:
 
-The first build takes about a minute and gives you
-`https://<project>.pages.dev`. The page will work; the form will not yet —
-it has no keys.
+| Field | Value | Why |
+|---|---|---|
+| Build command | `npm run build` | renders `dist/` from `content.json` |
+| Deploy command | `npx wrangler deploy` | uploads `dist/` + the Worker |
+| Version command | `npx wrangler versions upload` | preview builds on non-production branches |
+| **Root directory** | `/` (leave it empty) | **not `dist`** |
 
-`functions/api/lead.js` is picked up automatically and served at `/api/lead`.
-Nothing to configure for it.
+Root directory means "which folder of the repo to build in", not where the
+output goes. Pointing it at `dist` fails the build, because `dist/` is generated
+and git-ignored — it does not exist when Cloudflare clones the repo.
 
-If the build fails on the Node version, add a variable `NODE_VERSION` = `20`
-(step 5) and retry the deployment.
+Where the output goes is set in `wrangler.jsonc` instead:
+
+```jsonc
+"assets": { "directory": "./dist", "binding": "ASSETS" }
+```
+
+Production branch: `main`.
+
+### How a request is handled
+
+Static files in `dist/` are served by Cloudflare's asset layer and never run any
+code. Only what does not match a file reaches `src/worker.js`, which answers
+`POST /api/lead` and hands everything else back to the assets. That is why the
+form endpoint needs no separate service.
+
+If a build has already failed with the wrong root directory: fix the field,
+**Save**, then **Deployments** → latest → **Retry deployment**.
 
 ---
 
@@ -91,7 +108,7 @@ verification needed. Several addresses: comma-separate them.
 
 1. Cloudflare dashboard → **Turnstile** → **Add widget**
 2. Name: `bou-landing`. Hostnames: add `yourdomain.com`, `www.yourdomain.com`
-   and `<project>.pages.dev` (so it works on preview deployments too)
+   and `bou.<your-subdomain>.workers.dev` (so it works on preview deployments too)
 3. Widget mode: **Managed**
 4. **Create**. You get a **Site key** and a **Secret key**
 
@@ -110,7 +127,7 @@ time.
 
 ## 5 · Add the variables in Cloudflare
 
-Pages project → **Settings** → **Variables and secrets** → **Add**.
+Worker `bou` → **Settings** → **Variables and Secrets** → **Add**.
 
 For each one: choose type **Secret** (so it is encrypted and never shown again),
 enter the name and value, **Save**.
@@ -124,22 +141,24 @@ enter the name and value, **Save**.
 
 Two things people trip on:
 
-- There are **two environments**, Production and Preview. Add the variables to
-  both, or the form works on the live site and fails on preview builds
-- Variables apply to **new** deployments only. After adding them go to
+- Secrets apply to **new** deployments only. After adding them go to
   **Deployments** → latest → **Retry deployment**, or push any commit
+- Set them as **Secret**, not plaintext, so they are encrypted and hidden after
+  saving. Secrets set here survive every later deploy — `wrangler deploy` does
+  not wipe them
 
 Same thing from the CLI, if you prefer:
 
 ```bash
-npx wrangler pages secret put RESEND_API_KEY --project-name=<project>
+npx wrangler secret put RESEND_API_KEY
 ```
 
 ---
 
 ## 6 · Point the domain at it
 
-1. Pages project → **Custom domains** → **Set up a domain**
+1. Worker `bou` → **Domains** (or Settings → Domains & Routes) → **Add** →
+   **Custom domain**
 2. Enter `yourdomain.com`, then repeat for `www.yourdomain.com`
 3. Cloudflare creates the DNS records itself — your zone is already there
 4. SSL is issued automatically, usually within a minute or two
@@ -152,8 +171,8 @@ On the live domain, fill the form in and submit. Expected: the button greys out,
 then the success line from `content.json` appears, and the lead is in `LEAD_TO`
 within seconds. Hit reply — it goes to the person who filled the form in.
 
-If something fails, the page shows the reason. To see the server side: Pages
-project → the deployment → **Functions** → **Real-time logs**, and submit again.
+If something fails, the page shows the reason. To see the server side: Worker
+`bou` → **Observability** → **Logs** (live), and submit again.
 
 | What you see | What it means |
 |---|---|
@@ -167,10 +186,10 @@ project → the deployment → **Functions** → **Real-time logs**, and submit 
 ## Testing locally before any of this
 
 ```bash
-npm run build && python3 -m http.server 8000     # page only, form will 404
+npm run preview          # static page only on :8000, /api/lead will 404
 ```
 
-To exercise the form on your machine you need the Functions runtime:
+To exercise the form on your machine you need the Workers runtime:
 
 ```bash
 cat > .dev.vars <<'EOF'
@@ -179,11 +198,11 @@ LEAD_TO="you@yourdomain.com"
 LEAD_FROM="Bou site <website@send.yourdomain.com>"
 EOF
 
-npm run build && npx wrangler pages dev .
+npm run dev              # wrangler: assets + /api/lead, on :8787
 ```
 
 `.dev.vars` is git-ignored. Leave `TURNSTILE_SECRET_KEY` out of it and the
-function skips the bot check locally.
+Worker skips the bot check locally.
 
 ---
 
