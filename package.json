@@ -1,0 +1,12 @@
+{
+  "name": "bunch-of-us-landing",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Landing page for Bunch of Us — static site built from content.json, deployed on Cloudflare Pages.",
+  "scripts": {
+    "build": "node build.mjs",
+    "build:strict": "node build.mjs --strict",
+    "dev": "node build.mjs && python3 -m http.server 8000"
+  }
+}

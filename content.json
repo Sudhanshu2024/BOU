@@ -1,0 +1,233 @@
+{
+  "_readme": "Single source of truth for every word and image on the landing page. Edit this file, then run `npm run build` to regenerate index.html. Anything still in [SQUARE BRACKETS] is a placeholder the build will warn you about.",
+
+  "site": {
+    "title": "Bunch of Us — 360° marketing agency",
+    "description": "Bunch of Us is a 360° marketing agency. Strategy, branding, content, digital, advertising and experiences under one roof.",
+    "ogTitle": "Bunch of Us — 360° marketing agency",
+    "ogDescription": "We don’t just market brands. We build them, position them, and make sure people remember them.",
+    "ogImage": "assets/img/hero-crew.jpg",
+    "themeColor": "#1a1a1a",
+    "lang": "en"
+  },
+
+  "brand": {
+    "wordmark": "bou",
+    "tagline": "bunch of us, doing 360° marketing",
+    "copyright": "© 2026 Bou Marketing"
+  },
+
+  "nav": [
+    { "label": "Work", "href": "#work" },
+    { "label": "Services", "href": "#services" },
+    { "label": "Process", "href": "#process" },
+    { "label": "Team", "href": "#team" }
+  ],
+
+  "cta": { "label": "Start a project", "href": "#contact" },
+
+  "hero": {
+    "eyebrow": "Bou Marketing — 360° agency",
+    "kicker": "We are",
+    "title": "Bunch of us",
+    "lede": "We don’t just market brands. We build them, position them, and make sure people remember them.",
+    "services": "Strategy • Branding • Content • Digital • Advertising • Experiences",
+    "image": { "src": "assets/img/hero-crew.jpg", "alt": "A film crew working on a lit studio floor" },
+    "buttons": [
+      { "label": "Start a project", "href": "#contact", "style": "invert" },
+      { "label": "See the work", "href": "#work", "style": "ghost" }
+    ]
+  },
+
+  "about": {
+    "eyebrow": "Who are we",
+    "title": "One agency.\nEvery direction.",
+    "lede": "Bunch of Us is a 360° marketing agency for brands that don’t want disconnected marketing. We bring together **strategy, branding, creativity, content, digital marketing, advertising, influencers and experiences** under one roof.",
+    "statement": "Your brand has one story. Your marketing should too.",
+    "touchpointsTitle": "A customer doesn’t meet you in one place",
+    "touchpoints": [
+      "See your Instagram",
+      "Watch your reel",
+      "Visit your website",
+      "Come to your event",
+      "See an advertisement",
+      "Walk into your store",
+      "Tell their friends about you"
+    ],
+    "note": "Every interaction shapes their perception. So we connect every touchpoint — online, offline, strategy, content, experiences."
+  },
+
+  "services": {
+    "eyebrow": "What we do",
+    "title": "What is\n360° marketing?",
+    "note": "Your brand exists everywhere. So should your marketing. Four practices, one team, no hand-offs.",
+    "columns": [
+      {
+        "title": "Brand & content",
+        "items": [
+          "Brand strategy & positioning",
+          "Brand identity & rebranding",
+          "Audience & market understanding",
+          "Brand voice & messaging",
+          "Social media strategy",
+          "Content calendars",
+          "Copywriting & scriptwriting"
+        ]
+      },
+      {
+        "title": "Content production",
+        "items": [
+          "Creative concepts",
+          "Scriptwriting",
+          "Shoot planning",
+          "Photography & videography",
+          "Reels & short-form content",
+          "Editing & post production",
+          "Content optimisation"
+        ]
+      },
+      {
+        "title": "Digital & paid",
+        "items": [
+          "Meta advertising",
+          "Paid campaign strategy",
+          "Audience targeting",
+          "Lead generation",
+          "Brand awareness",
+          "Campaign management",
+          "Performance optimisation"
+        ]
+      },
+      {
+        "title": "Influencer & experiences",
+        "items": [
+          "Influencer strategy",
+          "Creator identification",
+          "Collaborations & outreach",
+          "Event planning & marketing",
+          "Brand activations",
+          "Launch & community events",
+          "On-ground campaigns"
+        ]
+      }
+    ],
+    "statement": "Not just more reach.\nThe right reach.",
+    "cta": { "label": "Get a 360° plan", "href": "#contact" }
+  },
+
+  "work": {
+    "eyebrow": "Selected work",
+    "title": "Glimpse of magic",
+    "note": "From an idea in a meeting to content on your screen. Concept → Script → Shoot → Edit → Publish.",
+    "feature": {
+      "image": { "src": "assets/img/work-offbeat.jpg", "alt": "A still from the Offbeat brand film, a person drinking coffee" },
+      "kicker": "Brand film & social launch",
+      "title": "Offbeat Café & Studio",
+      "result": "[RESULT — e.g. 3.2M views in 6 weeks]"
+    },
+    "items": [
+      {
+        "image": { "src": "assets/img/work-product-reel.jpg", "alt": "A creator filming a product reel at home" },
+        "kicker": "Creator campaign",
+        "client": "[CLIENT NAME]"
+      },
+      {
+        "image": { "src": "assets/img/work-travel-reel.jpg", "alt": "A creator in a sun hat filming a travel reel" },
+        "kicker": "Seasonal campaign",
+        "client": "[CLIENT NAME]"
+      },
+      {
+        "image": { "src": "assets/img/work-app-discovery.jpg", "alt": "A creator demonstrating a travel booking app" },
+        "kicker": "App discovery",
+        "client": "[CLIENT NAME]"
+      }
+    ],
+    "footNote": "[ADD 3–6 MORE CASE STUDIES — each one image, one result line]",
+    "cta": { "label": "See the full portfolio", "href": "#contact" }
+  },
+
+  "process": {
+    "eyebrow": "How we work",
+    "title": "Strategy first.\nExecution second.\nGrowth always.",
+    "image": { "src": "assets/img/process-team.jpg", "alt": "Four people laughing together during a campaign shoot" },
+    "steps": [
+      { "title": "Understand", "copy": "Your brand, business, audience and goals." },
+      { "title": "Strategise", "copy": "A customised marketing roadmap built around your objectives." },
+      { "title": "Create", "copy": "Ideas, campaigns, content and experiences." },
+      { "title": "Execute", "copy": "Bring the strategy to life across the right channels." },
+      { "title": "Optimise", "copy": "Analyse, learn and continuously improve." }
+    ],
+    "close": "One strategy. Multiple channels. One clear direction. You don’t need five different agencies trying to solve five different problems."
+  },
+
+  "team": {
+    "title": "Meet our core",
+    "script": "Team",
+    "members": [
+      {
+        "name": "Sudhanshu",
+        "image": { "src": "assets/img/team-sudhanshu.jpg", "alt": "Sudhanshu, co-founder" },
+        "role": "Co-founder — Operations & Technology",
+        "skills": "Technology · Digital infrastructure · Operations · Web & domains"
+      },
+      {
+        "name": "Surbhie",
+        "image": { "src": "assets/img/team-surbhie.jpg", "alt": "Surbhie, co-founder and creative director" },
+        "role": "Co-founder & Creative Director",
+        "skills": "Brand strategy · Branding · Creative direction · Production · Marketing"
+      },
+      {
+        "name": "Trisha",
+        "image": { "src": "assets/img/team-trisha.jpg", "alt": "Trisha, development and communications" },
+        "role": "Development & Communications",
+        "skills": "Client acquisition · Sales · Client communication · Business support"
+      }
+    ]
+  },
+
+  "testimonials": {
+    "eyebrow": "What clients say",
+    "note": "[REPLACE ALL THREE WITH REAL QUOTES BEFORE LAUNCH]",
+    "items": [
+      { "quote": "[QUOTE — what changed for the client, in their words, two or three sentences.]", "name": "[NAME]", "role": "[ROLE]", "company": "[COMPANY]" },
+      { "quote": "[QUOTE — ideally one that names a number: views, leads, footfall.]", "name": "[NAME]", "role": "[ROLE]", "company": "[COMPANY]" },
+      { "quote": "[QUOTE — one about working with one team instead of five.]", "name": "[NAME]", "role": "[ROLE]", "company": "[COMPANY]" }
+    ]
+  },
+
+  "contact": {
+    "eyebrow": "Start here",
+    "title": "Let’s build something worth remembering.",
+    "lede": "Tell us where your brand is today. We’ll come back with what a 360° plan looks like for it.",
+    "email": "[HELLO@YOURDOMAIN.COM]",
+    "phone": "[+91 00000 00000]",
+    "location": "[CITY, INDIA]",
+    "image": { "src": "assets/img/contact-crowd.jpg", "alt": "A crowd shielding their eyes and looking up" },
+    "form": {
+      "endpoint": "/api/lead",
+      "turnstileSiteKey": "",
+      "submitLabel": "Send it over",
+      "needOptions": [
+        "Full 360° marketing",
+        "Brand strategy & identity",
+        "Content production",
+        "Digital & paid campaigns",
+        "Influencer marketing",
+        "Events & brand activations"
+      ],
+      "messages": {
+        "invalid": "Add your name and a valid email, then send again.",
+        "sending": "Sending…",
+        "success": "Thanks — we’ve got it. We’ll come back to you within two working days.",
+        "error": "That didn’t go through. Mail us directly and we’ll pick it up."
+      }
+    }
+  },
+
+  "footer": {
+    "social": [
+      { "label": "[Instagram]", "href": "https://instagram.com" },
+      { "label": "[LinkedIn]", "href": "https://linkedin.com" }
+    ]
+  }
+}
