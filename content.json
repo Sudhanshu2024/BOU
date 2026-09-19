@@ -205,7 +205,7 @@
     "image": { "src": "assets/img/contact-crowd.jpg", "alt": "A crowd shielding their eyes and looking up" },
     "form": {
       "endpoint": "/api/lead",
-      "turnstileSiteKey": "",
+      "turnstileSiteKey": "0x4AAAAAAE9H4DnTjC8GP3Aw",
       "submitLabel": "Send it over",
       "needOptions": [
         "Full 360° marketing",
