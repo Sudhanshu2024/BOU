@@ -146,6 +146,88 @@
     });
   }
 
+  /* ---------- Video media ----------
+     Any media slot in content.json can hold a video instead of an image. A
+     video plays while the pointer is over its box; where there is no hover —
+     touch, and the narrow layouts — focus takes over, which is why the mute
+     toggle is a real button sitting inside the box. Videos are muted until
+     someone asks for sound, because that is the only way a browser will start
+     one on its own. */
+
+  var hoverPlays = window.matchMedia('(hover: hover) and (pointer: fine) and (min-width: 1001px)');
+  var players = [];
+
+  function play(video) {
+    if (!video || !video.getAttribute('src')) return;
+    var started = video.play();
+    // Autoplay can still be refused; a still frame is a fine outcome.
+    if (started && started.catch) started.catch(function () {});
+  }
+
+  function stop(video) {
+    if (!video) return;
+    video.pause();
+    try { video.currentTime = 0; } catch (error) { /* not seekable yet */ }
+  }
+
+  function setSound(button, on) {
+    if (!button) return;
+    button.setAttribute('aria-pressed', String(on));
+    button.setAttribute('aria-label', on ? button.dataset.labelMute : button.dataset.labelUnmute);
+  }
+
+  /* One video at a time may have sound. */
+  function soloSound(video) {
+    players.forEach(function (p) {
+      if (p.video === video) return;
+      p.video.muted = true;
+      setSound(p.button, false);
+    });
+  }
+
+  function wireSound(button, video) {
+    if (!button || !video) return;
+    players.push({ video: video, button: button });
+    button.addEventListener('click', function () {
+      if (video.muted) {
+        soloSound(video);
+        video.muted = false;
+        play(video); // sound without picture would be a puzzle
+      } else {
+        video.muted = true;
+      }
+      setSound(button, !video.muted);
+    });
+  }
+
+  $$('[data-media="video"]').forEach(function (media) {
+    var video = media.querySelector('video');
+    if (!video) return;
+
+    var button = media.querySelector('.sound');
+    // The hero plays by itself; hovering the whole band should not stop it.
+    var background = media.classList.contains('hero');
+
+    if (!background) {
+      media.addEventListener('mouseenter', function () {
+        if (hoverPlays.matches && !reduce) play(video);
+      });
+      media.addEventListener('mouseleave', function () {
+        if (hoverPlays.matches) stop(video);
+      });
+      // Focus is the trigger wherever hover is not, and for keyboards everywhere.
+      media.addEventListener('focusin', function () { play(video); });
+      media.addEventListener('focusout', function (event) {
+        if (!media.contains(event.relatedTarget)) stop(video);
+      });
+    } else if (reduce) {
+      video.removeAttribute('autoplay');
+      video.pause();
+    }
+
+    wireSound(button, video);
+  });
+
   /* ---------- Work case overlay ---------- */
 
   var dialog = $('#case');
@@ -156,6 +238,47 @@
     if (el) el.textContent = value || '';
   }
 
+  var caseImg = $('#case-img');
+  var caseVideo = $('#case-video');
+  var caseSound = $('#case-sound');
+
+  function showCaseMedia(card) {
+    var src = card.getAttribute('data-src');
+    var alt = card.getAttribute('data-alt') || '';
+    var poster = card.getAttribute('data-poster');
+
+    if (card.getAttribute('data-type') === 'video') {
+      if (caseImg) caseImg.hidden = true;
+      if (!caseVideo) return;
+      caseVideo.hidden = false;
+      caseVideo.src = src;
+      if (poster) caseVideo.poster = poster; else caseVideo.removeAttribute('poster');
+      caseVideo.setAttribute('aria-label', alt);
+      caseVideo.muted = true;
+      if (caseSound) {
+        caseSound.hidden = false;
+        setSound(caseSound, false);
+      }
+      play(caseVideo);
+      return;
+    }
+
+    if (caseVideo) {
+      caseVideo.pause();
+      caseVideo.hidden = true;
+      caseVideo.removeAttribute('src');
+      caseVideo.load();
+    }
+    if (caseSound) caseSound.hidden = true;
+    if (caseImg) {
+      caseImg.hidden = false;
+      caseImg.src = src;
+      caseImg.alt = alt;
+    }
+  }
+
+  if (caseVideo && caseSound) wireSound(caseSound, caseVideo);
+
   $$('.work-card').forEach(function (card) {
     card.addEventListener('click', function () {
       if (!canDialog) { location.hash = '#contact'; return; }
@@ -164,11 +287,7 @@
       fill('#case-brief', card.getAttribute('data-brief'));
       fill('#case-did', card.getAttribute('data-did'));
       fill('#case-result', card.getAttribute('data-result'));
-      var img = $('#case-img');
-      if (img) {
-        img.src = card.getAttribute('data-img');
-        img.alt = card.getAttribute('data-alt') || '';
-      }
+      showCaseMedia(card);
       dialog.showModal();
     });
   });
@@ -176,11 +295,21 @@
   if (canDialog) {
     var close = $('#case-close');
     var caseCta = $('#case-cta');
-    if (close) close.addEventListener('click', function () { dialog.close(); });
-    if (caseCta) caseCta.addEventListener('click', function () { dialog.close(); });
+
+    /* Every way out of the overlay stops its video: the close event alone is
+       not dependable enough to be the only place that does it. */
+    function closeCase() {
+      if (caseVideo) stop(caseVideo);
+      dialog.close();
+    }
+
+    if (close) close.addEventListener('click', closeCase);
+    if (caseCta) caseCta.addEventListener('click', closeCase);
     dialog.addEventListener('click', function (event) {
-      if (event.target === dialog) dialog.close();
+      if (event.target === dialog) closeCase();
     });
+    dialog.addEventListener('cancel', function () { if (caseVideo) stop(caseVideo); });
+    dialog.addEventListener('close', function () { if (caseVideo) stop(caseVideo); });
   }
 
   /* ---------- Contact form ----------

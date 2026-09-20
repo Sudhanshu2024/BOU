@@ -1,5 +1,5 @@
 {
-  "_readme": "Single source of truth for every word and image on the landing page. Edit this file, then run `npm run build` to regenerate index.html. Anything still in [SQUARE BRACKETS] is a placeholder the build will warn you about.",
+  "_readme": "Single source of truth for every word and image on the landing page. Edit this file, then run `npm run build` to regenerate index.html. Anything still in [SQUARE BRACKETS] is a placeholder the build will warn you about. Every image slot takes a video just as happily: point src at an .mp4 or .webm, add a poster still, and the page plays it on hover (on touch and narrow screens, on focus) with its own mute toggle.",
 
   "site": {
     "title": "Bunch of Us — 360° marketing agency",
@@ -25,6 +25,11 @@
   ],
 
   "cta": { "label": "Start a project", "href": "#contact" },
+
+  "media": {
+    "unmuteLabel": "Unmute video",
+    "muteLabel": "Mute video"
+  },
 
   "hero": {
     "eyebrow": "Bou Marketing — 360° agency",

@@ -16,6 +16,7 @@ assets/css/styles.css design tokens + all layout
 assets/js/main.js     scroll progress, band-aware nav, reveals, stepper,
                       parallax, mobile drawer, case overlay, contact form
 assets/img/*.jpg      photography from the canvas
+assets/video/*.mp4    video for any media slot that wants one
 src/worker.js         the Worker: serves dist/, handles POST /api/lead
 src/lead.js           validates, anti-spam, emails the lead via Resend
 wrangler.jsonc        Worker config — name, entry point, assets directory
@@ -44,6 +45,25 @@ Conventions inside `content.json`:
 - Anything in `[SQUARE BRACKETS]` is a placeholder; every build prints what is left.
 - Images live in `assets/img/`; each needs an `alt` line describing it for screen
   readers and for anyone whose images fail to load.
+- **Every image slot takes a video instead.** Point `src` at an `.mp4` or
+  `.webm` and add a `poster` still; the page works out the rest from the file
+  extension. An explicit `"type": "video"` forces it for an unusual extension:
+
+  ```json
+  "image": {
+    "src": "assets/video/offbeat-film.mp4",
+    "poster": "assets/img/offbeat-still.jpg",
+    "alt": "A still from the Offbeat brand film"
+  }
+  ```
+
+  A video slot plays while the pointer is over it and stops when it leaves. On
+  touch and on screens up to 1000px there is no hover, so focus takes over:
+  tapping or tabbing to the mute toggle beside it starts it. Videos are muted,
+  looping and without controls — the mute toggle is the only control, and only
+  one video on the page can have sound at a time. `media.unmuteLabel` and
+  `media.muteLabel` are that button's labels. Keep the clips short and small;
+  they are decoration, not a video player.
 - `marquee` is the scrolling strip under the about section; the build prints the
   list twice so the loop is seamless.
 - Every entry under `work` needs `brief`, `did` and `result`: those fill the
