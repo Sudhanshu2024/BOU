@@ -316,14 +316,23 @@ dialog.case::backdrop{ background:#1a1a1acc; }
 
 .team-head{ display:flex; align-items:flex-end; gap:clamp(12px,1.6vw,24px); flex-wrap:wrap; margin-bottom:clamp(36px,4vw,60px); }
 .team-head .script{ font-size:clamp(46px,6vw,80px); color:var(--cobalt); }
-.team-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:clamp(28px,3vw,44px); }
+.team-grid{ display:grid; grid-auto-flow:column; grid-auto-columns:minmax(0,1fr); gap:clamp(10px,2.4vw,44px); }
 .member figure{ position:relative; overflow:hidden; aspect-ratio:4/5; background:var(--ink); }
 .member img,.member video{ width:100%; height:100%; object-fit:cover; filter:grayscale(1) contrast(1.06); transition:transform 900ms var(--ease),filter 620ms var(--ease); }
 .member:hover img,.member:hover video,
 .member:focus-within img,.member:focus-within video{ transform:scale(1.04); filter:grayscale(.15) contrast(1.02); }
-.member-meta{ display:flex; flex-direction:column; gap:9px; padding-top:18px; }
+.member-meta{ display:flex; flex-direction:column; gap:9px; padding-top:18px; overflow-wrap:break-word; }
 .member-meta .eb{ color:var(--rust); }
 .member-meta .mono-s{ color:var(--ink-2); }
+
+@media (max-width:760px){
+  .member-meta{ gap:5px; padding-top:10px; }
+  .member-meta .d-3{ font-size:clamp(13px,4.1vw,26px); line-height:1; }
+  .member-meta .eb{ font-size:clamp(8px,2.1vw,12px); letter-spacing:.06em; line-height:1.25; }
+  .member-meta .mono-s{ font-size:clamp(9px,2.3vw,12px); line-height:1.35; letter-spacing:0; }
+  .member .sound{ width:30px; height:30px; right:6px; bottom:6px; }
+  .member .sound svg{ width:14px; height:14px; }
+}
 
 /* ---------- Testimonials ---------- */
 
