@@ -105,7 +105,9 @@ export async function handleLead(request, env) {
     },
     body: JSON.stringify({
       from: env.LEAD_FROM,
-      to: env.LEAD_TO.split(',').map((address) => address.trim()),
+      to: env.LEAD_TO.split(',')
+        .map((address) => address.trim())
+        .filter(Boolean),
       reply_to: lead.email,
       subject: `New lead — ${lead.name}${lead.brand ? ` (${lead.brand})` : ''}`,
       text,

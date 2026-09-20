@@ -129,6 +129,13 @@ time.
 
 Worker `bou` → **Settings** → **Variables and Secrets** → **Add**.
 
+Set every one of them as type **Secret**, not Variable. A plaintext Variable
+added in the dashboard is dropped by the next `wrangler deploy`, because the
+deployment takes its variables from `wrangler.jsonc` — which declares none on
+purpose. Secrets are stored separately and survive every deploy. If the
+dashboard shows a yellow "keep deployments in sync" banner, it is telling you a
+Variable is about to be lost: delete it and re-add it as a Secret.
+
 For each one: choose type **Secret** (so it is encrypted and never shown again),
 enter the name and value, **Save**.
 
@@ -162,6 +169,24 @@ npx wrangler secret put RESEND_API_KEY
 2. Enter `yourdomain.com`, then repeat for `www.yourdomain.com`
 3. Cloudflare creates the DNS records itself — your zone is already there
 4. SSL is issued automatically, usually within a minute or two
+
+### "Hostname already has externally managed DNS records"
+
+The zone already has an A, AAAA or CNAME record for that hostname, left over
+from whatever the domain pointed at before, and Cloudflare will not overwrite a
+record you manage.
+
+Go to **bunchofus.in** → **DNS** → **Records** and delete the **A / AAAA /
+CNAME** records named `bunchofus.in` (`@`) and `www` — note their values first
+in case you want them back. Then add the domain again.
+
+Delete nothing else. MX and TXT records carry your email; removing them breaks
+inbound mail and the SPF/DKIM records that Resend needs. The `send.bunchofus.in`
+records belong to Resend and must stay.
+
+If the domain currently serves a live site you are not ready to replace, add the
+Worker on a spare hostname instead (put `site` in the subdomain box) and move it
+to the root at cut-over.
 
 ---
 
