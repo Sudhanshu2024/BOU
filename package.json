@@ -5,9 +5,10 @@
   "type": "module",
   "description": "Landing page for Bunch of Us — static site built from content.json, served by a Cloudflare Worker.",
   "scripts": {
+    "start": "node watch.mjs",
+    "dev": "node watch.mjs --wrangler",
     "build": "node build.mjs",
     "build:strict": "node build.mjs --strict",
-    "dev": "node build.mjs && npx wrangler dev",
     "preview": "node build.mjs && python3 -m http.server 8000 -d dist",
     "deploy": "node build.mjs && npx wrangler deploy"
   },
