@@ -143,7 +143,7 @@ enter the name and value, **Save**.
 |---|---|---|
 | `RESEND_API_KEY` | `re_...` | step 3b |
 | `LEAD_TO` | `you@yourdomain.com` | your inbox |
-| `LEAD_FROM` | `Bou site <website@send.yourdomain.com>` | step 3a |
+| `LEAD_FROM` | `website@send.yourdomain.com` — bare, no quotes | step 3a |
 | `TURNSTILE_SECRET_KEY` | the secret key | step 4 |
 
 Two things people trip on:
@@ -203,8 +203,28 @@ If something fails, the page shows the reason. To see the server side: Worker
 |---|---|
 | "The form is not configured yet." | A variable is missing, or you have not redeployed since adding them |
 | "Bot check failed." | The site key in `content.json` and `TURNSTILE_SECRET_KEY` are from different widgets |
-| "We could not send that just now." | Resend rejected it — nearly always `LEAD_FROM` on an unverified domain. The log line has Resend's own message |
+| "We could not send that just now." | Resend rejected it. See the table below |
 | Nothing happens at all | Open the browser console; check the form posts to `/api/lead` |
+
+### When Resend rejects the send
+
+Worker `bou` → **Observability** → **Logs**, submit the form again, and read the
+`lead: resend rejected` line — it carries Resend's own message, and the lead's
+details so nothing is lost. Or reproduce it in one command:
+
+```bash
+curl -X POST https://api.resend.com/emails \
+  -H "Authorization: Bearer re_YOUR_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"from":"Bou site <website@send.bunchofus.in>","to":["you@bunchofus.in"],"subject":"test","text":"test"}'
+```
+
+| Resend says | Cause | Fix |
+|---|---|---|
+| `domain is not verified` | verification still pending | check the DNS records are in Cloudflare with the proxy **off** (grey cloud), then Verify again |
+| `You can only send testing emails to your own email address` | no verified domain, so the account is in test mode | finish verification, or temporarily use `onboarding@resend.dev` as `LEAD_FROM` and your Resend signup address as `LEAD_TO` |
+| `Invalid from address` / 403 | the `from` domain does not exactly match the verified one | verifying `bunchofus.in` does not authorise `send.bunchofus.in`, or the reverse. Make the two match |
+| `Invalid \`from\` field` (422) | the secret's value is not a valid address — usually quotes pasted with it | set `LEAD_FROM` to the bare address, `website@send.bunchofus.in`, with no quotes, spaces or newline. `.dev.vars` needs the quotes; the dashboard field does not |
 
 ---
 

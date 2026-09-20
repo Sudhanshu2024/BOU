@@ -84,6 +84,15 @@ export async function handleLead(request, env) {
     return json({ ok: false, error: 'The form is not configured yet.' }, 500);
   }
 
+  /* Secrets are pasted by hand, so a stray pair of quotes or a trailing space is
+     a normal accident. Resend rejects both with a 422. */
+  const unquote = (value) => String(value).trim().replace(/^["']|["']$/g, '').trim();
+  const from = unquote(env.LEAD_FROM);
+  const to = unquote(env.LEAD_TO)
+    .split(',')
+    .map((address) => unquote(address))
+    .filter(Boolean);
+
   const country = request.headers.get('CF-IPCountry') || 'unknown';
   const text = [
     `Name:    ${lead.name}`,
@@ -104,10 +113,8 @@ export async function handleLead(request, env) {
       'content-type': 'application/json',
     },
     body: JSON.stringify({
-      from: env.LEAD_FROM,
-      to: env.LEAD_TO.split(',')
-        .map((address) => address.trim())
-        .filter(Boolean),
+      from,
+      to,
       reply_to: lead.email,
       subject: `New lead — ${lead.name}${lead.brand ? ` (${lead.brand})` : ''}`,
       text,
@@ -115,7 +122,13 @@ export async function handleLead(request, env) {
   });
 
   if (!res.ok) {
-    console.error('lead: resend responded', res.status, await res.text());
+    /* Log the lead itself alongside the failure: a send that Resend rejects is
+       still a real enquiry, and the log is the only copy of it. */
+    console.error('lead: resend rejected', res.status, await res.text(), {
+      from,
+      to,
+      lead,
+    });
     return json({ ok: false, error: 'We could not send that just now.' }, 502);
   }
 

@@ -13,7 +13,8 @@ content.json          every word and image on the page — the only file to edit
 build.mjs             renders index.html from content.json
 src/page.mjs          the markup template
 assets/css/styles.css design tokens + all layout
-assets/js/main.js     mobile menu, contact form submit
+assets/js/main.js     scroll progress, band-aware nav, reveals, stepper,
+                      parallax, mobile drawer, case overlay, contact form
 assets/img/*.jpg      photography from the canvas
 src/worker.js         the Worker: serves dist/, handles POST /api/lead
 src/lead.js           validates, anti-spam, emails the lead via Resend
@@ -43,6 +44,16 @@ Conventions inside `content.json`:
 - Anything in `[SQUARE BRACKETS]` is a placeholder; every build prints what is left.
 - Images live in `assets/img/`; each needs an `alt` line describing it for screen
   readers and for anyone whose images fail to load.
+- `marquee` is the scrolling strip under the about section; the build prints the
+  list twice so the loop is seamless.
+- Every entry under `work` needs `brief`, `did` and `result`: those fill the
+  case overlay that opens when a card is clicked.
+- `contact.form.sent` is the thank-you panel that replaces the form once the
+  lead has been accepted by `/api/lead`.
+
+Everything the script does is an enhancement. With JavaScript off the page still
+reads top to bottom, the drawer links are ordinary anchors, the work cards jump
+to the contact section, and the form submits natively to its endpoint.
 
 Nothing here needs Node modules — only Node 18+ to run the build.
 

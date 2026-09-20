@@ -28,10 +28,10 @@
 
   "hero": {
     "eyebrow": "Bou Marketing — 360° agency",
-    "kicker": "We are",
     "title": "Bunch of us",
     "lede": "We don’t just market brands. We build them, position them, and make sure people remember them.",
-    "services": "Strategy • Branding • Content • Digital • Advertising • Experiences",
+    "tags": ["Strategy", "Branding", "Content", "Digital", "Advertising", "Experiences"],
+    "scrollLabel": "Scroll",
     "image": { "src": "assets/img/hero-crew.jpg", "alt": "A film crew working on a lit studio floor" },
     "buttons": [
       { "label": "Start a project", "href": "#contact", "style": "invert" },
@@ -56,6 +56,17 @@
     ],
     "note": "Every interaction shapes their perception. So we connect every touchpoint — online, offline, strategy, content, experiences."
   },
+
+  "marquee": [
+    "Brand strategy",
+    "Content production",
+    "Meta advertising",
+    "Influencer marketing",
+    "Reels & short form",
+    "Brand activations",
+    "Campaign concepts",
+    "Launch events"
+  ],
 
   "services": {
     "eyebrow": "What we do",
@@ -119,27 +130,48 @@
     "eyebrow": "Selected work",
     "title": "Glimpse of magic",
     "note": "From an idea in a meeting to content on your screen. Concept → Script → Shoot → Edit → Publish.",
+    "openLabel": "Read the case",
+    "openLabelShort": "Case",
+    "caseLabels": { "brief": "The brief", "did": "What we did", "result": "Result" },
+    "caseCta": { "label": "Start something like this", "href": "#contact" },
     "feature": {
       "image": { "src": "assets/img/work-offbeat.jpg", "alt": "A still from the Offbeat brand film, a person drinking coffee" },
       "kicker": "Brand film & social launch",
       "title": "Offbeat Café & Studio",
+      "brief": "A café and creative studio opening in a crowded neighbourhood, with no audience of its own yet.",
+      "did": "Positioning, brand film, launch content calendar and the opening-week activation.",
       "result": "[RESULT — e.g. 3.2M views in 6 weeks]"
     },
     "items": [
       {
         "image": { "src": "assets/img/work-product-reel.jpg", "alt": "A creator filming a product reel at home" },
         "kicker": "Creator campaign",
-        "client": "[CLIENT NAME]"
+        "client": "[CLIENT NAME]",
+        "caseTitle": "[CLIENT NAME]",
+        "caseKind": "Creator-led product campaign",
+        "brief": "[WHAT THE BRAND NEEDED]",
+        "did": "Creator identification, concept, scripting and a four-week reel series.",
+        "result": "[RESULT]"
       },
       {
         "image": { "src": "assets/img/work-travel-reel.jpg", "alt": "A creator in a sun hat filming a travel reel" },
         "kicker": "Seasonal campaign",
-        "client": "[CLIENT NAME]"
+        "client": "[CLIENT NAME]",
+        "caseTitle": "[CLIENT NAME]",
+        "caseKind": "Seasonal campaign",
+        "brief": "[WHAT THE BRAND NEEDED]",
+        "did": "Campaign concept, shoot planning, production and paid amplification.",
+        "result": "[RESULT]"
       },
       {
         "image": { "src": "assets/img/work-app-discovery.jpg", "alt": "A creator demonstrating a travel booking app" },
         "kicker": "App discovery",
-        "client": "[CLIENT NAME]"
+        "client": "[CLIENT NAME]",
+        "caseTitle": "[CLIENT NAME]",
+        "caseKind": "App discovery campaign",
+        "brief": "[WHAT THE BRAND NEEDED]",
+        "did": "Creator casting, scripting around the product moment, edit and performance optimisation.",
+        "result": "[RESULT]"
       }
     ],
     "footNote": "[ADD 3–6 MORE CASE STUDIES — each one image, one result line]",
@@ -215,6 +247,11 @@
         "Influencer marketing",
         "Events & brand activations"
       ],
+      "sent": {
+        "title": "Thanks — that’s with us.",
+        "copy": "We read every brief ourselves. Expect a reply within two working days, with a first view of what a 360° plan could look like.",
+        "againLabel": "Send another"
+      },
       "messages": {
         "invalid": "Add your name and a valid email, then send again.",
         "sending": "Sending…",
@@ -226,8 +263,8 @@
 
   "footer": {
     "social": [
-      { "label": "[Instagram]", "href": "https://instagram.com" },
-      { "label": "[LinkedIn]", "href": "https://linkedin.com" }
+      { "label": "Instagram", "href": "https://instagram.com" },
+      { "label": "LinkedIn", "href": "https://linkedin.com" }
     ]
   }
 }
