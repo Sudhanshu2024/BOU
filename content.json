@@ -140,7 +140,7 @@
     "caseLabels": { "brief": "The brief", "did": "What we did", "result": "Result" },
     "caseCta": { "label": "Start something like this", "href": "#contact" },
     "feature": {
-      "image": { "src": "assets/img/work-offbeat.jpg", "alt": "A still from the Offbeat brand film, a person drinking coffee" },
+      "image": { "src": "assets/img/offbeat.jpeg", "alt": "A still from the Offbeat brand film, a person drinking coffee" },
       "kicker": "Brand film & social launch",
       "title": "Offbeat Café & Studio",
       "brief": "A café and creative studio opening in a crowded neighbourhood, with no audience of its own yet.",
@@ -149,7 +149,7 @@
     },
     "items": [
       {
-        "image": { "src": "assets/img/work-product-reel.jpg", "alt": "A creator filming a product reel at home" },
+        "image": { "src": "assets/img/mahina.mp4", "alt": "A creator filming a product reel at home" },
         "kicker": "Creator campaign",
         "client": "[CLIENT NAME]",
         "caseTitle": "[CLIENT NAME]",
@@ -159,7 +159,7 @@
         "result": "[RESULT]"
       },
       {
-        "image": { "src": "assets/img/work-travel-reel.jpg", "alt": "A creator in a sun hat filming a travel reel" },
+        "image": { "src": "assets/img/pleasure.mp4", "alt": "A creator in a sun hat filming a travel reel" },
         "kicker": "Seasonal campaign",
         "client": "[CLIENT NAME]",
         "caseTitle": "[CLIENT NAME]",
@@ -169,7 +169,7 @@
         "result": "[RESULT]"
       },
       {
-        "image": { "src": "assets/img/work-app-discovery.jpg", "alt": "A creator demonstrating a travel booking app" },
+        "image": { "src": "assets/img/goibibo.mp4", "alt": "A creator demonstrating a travel booking app" },
         "kicker": "App discovery",
         "client": "[CLIENT NAME]",
         "caseTitle": "[CLIENT NAME]",

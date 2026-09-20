@@ -57,6 +57,10 @@ Conventions inside `content.json`:
   }
   ```
 
+  A paused video sits in the same black and white as the photography around it
+  and comes into colour as it plays, so a slot that has not started yet reads
+  as a still. (The hero keeps its darkening either way — there is type on it.)
+
   A video slot plays while the pointer is over it and stops when it leaves. On
   touch and on screens up to 1000px there is no hover, so focus takes over:
   tapping or tabbing to the mute toggle beside it starts it. Videos are muted,

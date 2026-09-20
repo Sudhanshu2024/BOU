@@ -200,6 +200,16 @@
     });
   }
 
+  /* Colour follows playback, so the stylesheet can leave a paused video looking
+     like the stills around it. Driven by the video's own events, which covers
+     hover, focus, the hero autoplaying and the overlay alike. */
+  $$('video').forEach(function (video) {
+    video.addEventListener('play', function () { video.classList.add('is-playing'); });
+    video.addEventListener('pause', function () { video.classList.remove('is-playing'); });
+    // The hero can start before this script runs, so catch up with it.
+    if (!video.paused) video.classList.add('is-playing');
+  });
+
   $$('[data-media="video"]').forEach(function (media) {
     var video = media.querySelector('video');
     if (!video) return;
