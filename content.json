@@ -186,7 +186,7 @@
   "process": {
     "eyebrow": "How we work",
     "title": "Strategy first.\nExecution second.\nGrowth always.",
-    "image": { "src": "assets/img/process-team.jpg", "alt": "Four people laughing together during a campaign shoot" },
+    "image": { "src": "assets/img/process-team.jpeg", "alt": "Four people laughing together during a campaign shoot" },
     "steps": [
       { "title": "Understand", "copy": "Your brand, business, audience and goals." },
       { "title": "Strategise", "copy": "A customised marketing roadmap built around your objectives." },

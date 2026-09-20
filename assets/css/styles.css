@@ -276,6 +276,18 @@ section[id]{ scroll-margin-top:calc(var(--nav-h) + 16px); }
   .work-item:hover .shot::after{ opacity:1; }
   .work-item:hover .shot .open{ opacity:1; transform:none; }
 }
+
+/* Everywhere else — the exact negation of the query above, so a touch laptop at
+   full width is covered too — scrolling the card into view does the job instead.
+   Tapping cannot: the case overlay opens in the same instant and hides the
+   reveal, so the card would only light up after it had been read. No scale here:
+   under a pointer it reads as a response that ends when the pointer leaves;
+   left on permanently it is just a tighter crop. */
+@media not all and (hover:hover) and (pointer:fine) and (min-width:1001px){
+  .work-item.is-near .shot img,.work-item.is-near .shot video{ filter:grayscale(0) contrast(1); }
+  .work-item.is-near .shot::after{ opacity:1; }
+  .work-item.is-near .shot .open{ opacity:1; transform:none; }
+}
 .work-meta{ display:flex; flex-direction:column; gap:6px; }
 .work-meta .eb{ color:var(--rust); }
 .lead-card .work-meta{ display:grid; grid-template-columns:auto 1fr; align-items:baseline; gap:6px 20px; }
@@ -327,9 +339,16 @@ dialog.case::backdrop{ background:#1a1a1acc; }
 .team-grid{ display:grid; grid-auto-flow:column; grid-auto-columns:minmax(0,1fr); gap:clamp(10px,2.4vw,44px); }
 .member figure{ position:relative; overflow:hidden; aspect-ratio:4/5; background:var(--ink); }
 .member img,.member video{ width:100%; height:100%; object-fit:cover; filter:grayscale(1) contrast(1.06); transition:transform 900ms var(--ease),filter 620ms var(--ease); }
+/* Kept for the day a member is a video: the mute toggle is then the focusable
+   element inside the box. A member who is a still has none, which is why the
+   portraits cannot rely on focus alone. */
 .member:focus-within img,.member:focus-within video{ transform:scale(1.04); filter:grayscale(.15) contrast(1.02); }
 @media (hover:hover) and (pointer:fine) and (min-width:1001px){
   .member:hover img,.member:hover video{ transform:scale(1.04); filter:grayscale(.15) contrast(1.02); }
+}
+/* So without a pointer the portraits come into colour on the way past instead. */
+@media not all and (hover:hover) and (pointer:fine) and (min-width:1001px){
+  .member.is-near img,.member.is-near video{ filter:grayscale(.15) contrast(1.02); }
 }
 .member-meta{ display:flex; flex-direction:column; gap:9px; padding-top:18px; overflow-wrap:break-word; }
 .member-meta .eb{ color:var(--rust); }

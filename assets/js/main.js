@@ -79,6 +79,29 @@
     items.forEach(function (el) { revealObserver.observe(el); });
   }
 
+  /* ---------- Media in view ----------
+     Where there is a pointer, a picture comes into colour under it. Where there
+     is none — touch, and the narrow layouts — scrolling it onto the screen is
+     the nearest equivalent, so the invitation arrives before the tap rather
+     than after it. The class goes on at every width; the stylesheet decides
+     whether it means anything, which keeps rotating the phone honest. Once on,
+     it stays on: a picture that fades back out on the way up is a distraction. */
+
+  var nearItems = $$('.work-item, .member');
+
+  if (hasIO) {
+    var nearObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-near');
+        nearObserver.unobserve(entry.target);
+      });
+    }, { rootMargin: '0px 0px -25% 0px', threshold: 0.25 });
+    nearItems.forEach(function (el) { nearObserver.observe(el); });
+  } else {
+    nearItems.forEach(function (el) { el.classList.add('is-near'); });
+  }
+
   /* ---------- Process stepper ---------- */
 
   var steps = $$('.step');
