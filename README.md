@@ -70,7 +70,7 @@ Conventions inside `content.json`:
   they are decoration, not a video player.
 - `marquee` is the scrolling strip under the about section; the build prints the
   list twice so the loop is seamless.
-- Every entry under `work` needs `brief`, `did` and `result`: those fill the
+- Every entry under `work` needs `brief` and `did`: those fill the
   case overlay that opens when a card is clicked.
 - `contact.form.sent` is the thank-you panel that replaces the form once the
   lead has been accepted by `/api/lead`.
@@ -158,8 +158,7 @@ and worth doing only when you actually want to query or export leads.
 
 `npm run build` prints the current list. As it stands:
 
-- **Work** — the Offbeat result line, three client names, plus 3–6 more case studies
-- **Testimonials** — all three quotes, names, roles, companies
+- **Work** — 3–6 more case studies
 - **Contact** — email, phone, city
 - **Footer** — Instagram and LinkedIn URLs
 - **Team photos** — `assets/img/team-*.jpg` are stand-ins from the canvas; swap in

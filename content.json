@@ -37,7 +37,7 @@
     "lede": "We don’t just market brands. We build them, position them, and make sure people remember them.",
     "tags": ["Strategy", "Branding", "Content", "Digital", "Advertising", "Experiences"],
     "scrollLabel": "Scroll",
-    "image": { "src": "assets/img/hero-crew.jpg", "alt": "A film crew working on a lit studio floor" },
+    "image": { "src": "assets/img/hero-surbhi-hd.mp4", "poster": "assets/img/hero-surbhi-hd.jpg", "alt": "A still from the Offbeat Cafe brand film" },
     "buttons": [
       { "label": "Start a project", "href": "#contact", "style": "invert" },
       { "label": "See the work", "href": "#work", "style": "ghost" }
@@ -137,49 +137,45 @@
     "note": "From an idea in a meeting to content on your screen. Concept → Script → Shoot → Edit → Publish.",
     "openLabel": "Read the case",
     "openLabelShort": "Case",
-    "caseLabels": { "brief": "The brief", "did": "What we did", "result": "Result" },
+    "caseLabels": { "brief": "The brief", "did": "What we did" },
     "caseCta": { "label": "Start something like this", "href": "#contact" },
     "feature": {
       "image": { "src": "assets/img/offbeat.jpeg", "alt": "A still from the Offbeat brand film, a person drinking coffee" },
       "kicker": "Brand film & social launch",
       "title": "Offbeat Café & Studio",
       "brief": "A café and creative studio opening in a crowded neighbourhood, with no audience of its own yet.",
-      "did": "Positioning, brand film, launch content calendar and the opening-week activation.",
-      "result": "[RESULT — e.g. 3.2M views in 6 weeks]"
+      "did": "Positioning, brand film, launch content calendar and the opening-week activation."
     },
     "items": [
       {
         "image": { "src": "assets/img/mahina.mp4", "alt": "A creator filming a product reel at home" },
         "kicker": "Creator campaign",
-        "client": "[CLIENT NAME]",
-        "caseTitle": "[CLIENT NAME]",
+        "client": "Mahina",
+        "caseTitle": "Mahina Period Panty",
         "caseKind": "Creator-led product campaign",
-        "brief": "[WHAT THE BRAND NEEDED]",
-        "did": "Creator identification, concept, scripting and a four-week reel series.",
-        "result": "[RESULT]"
+        "brief": "A new period panty brand launching in a crowded market, with no audience of its own yet.",
+        "did": "Creator identification, concept, scripting and a four-week reel series."
       },
       {
         "image": { "src": "assets/img/pleasure.mp4", "alt": "A creator in a sun hat filming a travel reel" },
         "kicker": "Seasonal campaign",
-        "client": "[CLIENT NAME]",
-        "caseTitle": "[CLIENT NAME]",
+        "client": "MsChief",
+        "caseTitle": "MsChief Pleasure Collection",
         "caseKind": "Seasonal campaign",
-        "brief": "[WHAT THE BRAND NEEDED]",
-        "did": "Campaign concept, shoot planning, production and paid amplification.",
-        "result": "[RESULT]"
+        "brief": "A new collection of travel and leisure products launching in a crowded market, with no audience of its own yet.",
+        "did": "Campaign concept, shoot planning, production and paid amplification."
       },
       {
         "image": { "src": "assets/img/goibibo.mp4", "alt": "A creator demonstrating a travel booking app" },
         "kicker": "App discovery",
-        "client": "[CLIENT NAME]",
-        "caseTitle": "[CLIENT NAME]",
+        "client": "Goibibo",
+        "caseTitle": "Goibibo Travel App",
         "caseKind": "App discovery campaign",
-        "brief": "[WHAT THE BRAND NEEDED]",
-        "did": "Creator casting, scripting around the product moment, edit and performance optimisation.",
-        "result": "[RESULT]"
+        "brief": "A travel booking app looking to increase user engagement and downloads.",
+        "did": "Creator casting, scripting around the product moment, edit and performance optimisation."
       }
     ],
-    "footNote": "[ADD 3–6 MORE CASE STUDIES — each one image, one result line]",
+    "footNote": "[ADD 3–6 MORE CASE STUDIES — each one image, a brief and what we did]",
     "cta": { "label": "See the full portfolio", "href": "#contact" }
   },
 
@@ -222,23 +218,13 @@
     ]
   },
 
-  "testimonials": {
-    "eyebrow": "What clients say",
-    "note": "[REPLACE ALL THREE WITH REAL QUOTES BEFORE LAUNCH]",
-    "items": [
-      { "quote": "[QUOTE — what changed for the client, in their words, two or three sentences.]", "name": "[NAME]", "role": "[ROLE]", "company": "[COMPANY]" },
-      { "quote": "[QUOTE — ideally one that names a number: views, leads, footfall.]", "name": "[NAME]", "role": "[ROLE]", "company": "[COMPANY]" },
-      { "quote": "[QUOTE — one about working with one team instead of five.]", "name": "[NAME]", "role": "[ROLE]", "company": "[COMPANY]" }
-    ]
-  },
-
   "contact": {
     "eyebrow": "Start here",
     "title": "Let’s build something worth remembering.",
     "lede": "Tell us where your brand is today. We’ll come back with what a 360° plan looks like for it.",
-    "email": "[HELLO@YOURDOMAIN.COM]",
-    "phone": "[+91 00000 00000]",
-    "location": "[CITY, INDIA]",
+    "email": "communications@bunchofus.in",
+    "phone": "+91 6204603162",
+    "location": "Bengaluru, India",
     "image": { "src": "assets/img/contact-crowd.jpg", "alt": "A crowd shielding their eyes and looking up" },
     "form": {
       "endpoint": "/api/lead",
@@ -268,8 +254,8 @@
 
   "footer": {
     "social": [
-      { "label": "Instagram", "href": "https://instagram.com" },
-      { "label": "LinkedIn", "href": "https://linkedin.com" }
+      { "label": "Instagram", "href": "https://www.instagram.com/bou.marketing/" },
+      { "label": "LinkedIn", "href": "https://www.linkedin.com/company/bunchofus/" }
     ]
   }
 }

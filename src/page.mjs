@@ -85,7 +85,7 @@ export function renderPage(c) {
   /* Every work card opens the same dialog, filled from its data attributes. */
   const caseData = (item, title, kind) =>
     `data-title="${esc(title)}" data-kind="${esc(kind)}"
-          data-brief="${esc(item.brief)}" data-did="${esc(item.did)}" data-result="${esc(item.result)}"
+          data-brief="${esc(item.brief)}" data-did="${esc(item.did)}"
           data-src="${esc(item.image.src)}" data-alt="${esc(item.image.alt)}"
           data-type="${isVideo(item.image) ? 'video' : 'image'}" data-poster="${esc(item.image.poster || '')}"`;
 
@@ -249,7 +249,6 @@ export function renderPage(c) {
           <span class="work-meta">
             <span class="eb">${esc(c.work.feature.kicker)}</span>
             <span class="d d-3">${esc(c.work.feature.title)}</span>
-            <span class="ph work-result">${esc(c.work.feature.result)}</span>
           </span>
         </button>
         ${sound(c.work.feature.image, labels)}
@@ -337,30 +336,6 @@ export function renderPage(c) {
           <span class="mono-s">${esc(m.skills)}</span>
         </div>
       </div>`
-        )
-        .join('\n      ')}
-    </div>
-  </div>
-</section>
-
-<!-- ============ TESTIMONIALS ============ -->
-<section class="band ink dark pad" id="clients" data-nav="dark" aria-labelledby="quotes-title">
-  <div class="inner">
-    <div class="head">
-      <p class="eb" id="quotes-title" data-reveal>${esc(c.testimonials.eyebrow)}</p>
-      ${
-        c.testimonials.note
-          ? `<p class="mono ph" data-reveal${step(1)} style="font-size:13px">${esc(c.testimonials.note)}</p>`
-          : ''
-      }
-    </div>
-    <div class="quotes">
-      ${c.testimonials.items
-        .map(
-          (q, i) => `<blockquote class="quote" data-reveal${step(i)}>
-        <p class="ph">&#8220;${esc(q.quote)}&#8221;</p>
-        <footer class="mono-s ph">${esc(q.name)}, ${esc(q.role)}<br>${esc(q.company)}</footer>
-      </blockquote>`
         )
         .join('\n      ')}
     </div>
@@ -474,7 +449,6 @@ ${
     <dl>
       <div><dt class="eb">${esc(c.work.caseLabels.brief)}</dt><dd id="case-brief"></dd></div>
       <div><dt class="eb">${esc(c.work.caseLabels.did)}</dt><dd id="case-did"></dd></div>
-      <div><dt class="eb">${esc(c.work.caseLabels.result)}</dt><dd class="ph" id="case-result"></dd></div>
     </dl>
     <a class="btn btn-primary" id="case-cta" href="${esc(c.work.caseCta.href)}">${esc(c.work.caseCta.label)} ${arrow}</a>
   </div>

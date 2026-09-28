@@ -319,7 +319,6 @@
       fill('#case-title', card.getAttribute('data-title'));
       fill('#case-brief', card.getAttribute('data-brief'));
       fill('#case-did', card.getAttribute('data-did'));
-      fill('#case-result', card.getAttribute('data-result'));
       showCaseMedia(card);
       dialog.showModal();
     });
